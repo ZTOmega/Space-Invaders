@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.maxXConstraint = constraint
         self.ready = True
         self.laserTime = 0
-        self.laserCoolDown = 600
+        self.laserCoolDown = 800
         self.lasers = pygame.sprite.Group()
         # Laser Sound
         self.laserSound = pygame.mixer.Sound("../Space Invaders/Audio/Audio_Laser.wav")
@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = self.maxXConstraint
 
     def shootLaser(self):
-        self.lasers.add(Laser(self.rect.center, -12, self.rect.bottom, (34,204,0)))
+        self.lasers.add(Laser(self.rect.center, -11, self.rect.bottom, (34,204,0)))
 
     def update(self):
         self.getInput()
