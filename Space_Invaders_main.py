@@ -101,10 +101,11 @@ class Game:
 
     def shipTimer(self):
         self.shipSpawnTime -= 1
-        if self.shipSpawnTime <= 0:
-            self.ship.add(Ship(choice(["right", "left"]),screenWidth))
-            self.shipSpawnTime = randint(400,800)
-            self.shipSound.play()
+        if self.aliens.sprites():
+            if self.shipSpawnTime <= 0:
+                self.ship.add(Ship(choice(["right", "left"]),screenWidth))
+                self.shipSpawnTime = randint(400,800)
+                self.shipSound.play()
 
     def collisionChecks(self):
         # Player Laser
@@ -179,7 +180,8 @@ class Game:
 
 
     def run(self):                                              # Atualiza e Desenha Grupos de Sprites
-        self.player.update()
+        if self.aliens.sprites():
+            self.player.update()
         self.alienLasers.update()
         self.ship.update()
 
