@@ -44,12 +44,15 @@ class Game:
         music = pygame.mixer.Sound("../Space Invaders/Audio/Background_Sound.wav")
         music.set_volume(0.4)
         music.play(loops = -1)
-        # Laser
-        self.laserSound = pygame.mixer.Sound("../Space Invaders/Audio/Audio_Laser.wav")
-        self.laserSound.set_volume(0.2)
-        # Explosion
-        self.explosionSound = pygame.mixer.Sound("../Space Invaders/Audio/Audio_Explosion.wav")
-        self.explosionSound.set_volume(0.4)
+        # Ship
+        self.shipSound = pygame.mixer.Sound("../Space Invaders/Audio/Audio_Ship.mp3")
+        self.shipSound.set_volume(0.2)
+        # Alien Explosion
+        self.AlienExplosionSound = pygame.mixer.Sound("../Space Invaders/Audio/Audio_Explosion.wav")
+        self.AlienExplosionSound.set_volume(0.4)
+        # Player Explosion
+        self.playerExplosionSound = pygame.mixer.Sound("../Space Invaders/Audio/Player_Explosion.mp3")
+        self.playerExplosionSound.set_volume(0.1)
 
 
     def createBarrier(self, xStart, yStart, offsetX):
@@ -95,13 +98,13 @@ class Game:
             randomAlien = choice(self.aliens.sprites())
             laserSprite = Laser(randomAlien.rect.center, 6, screenHeight - 30, (255,100,100))
             self.alienLasers.add(laserSprite)
-            #self.laserSound.play()
 
     def shipTimer(self):
         self.shipSpawnTime -= 1
         if self.shipSpawnTime <= 0:
             self.ship.add(Ship(choice(["right", "left"]),screenWidth))
             self.shipSpawnTime = randint(400,800)
+            self.shipSound.play()
 
     def collisionChecks(self):
         # Player Laser
@@ -117,13 +120,15 @@ class Game:
                     for alien in aliensHit:
                         self.score += alien.value
                     laser.kill()
-                    self.explosionSound.play()
+                    self.alienExplosionSound.play()
 
                 # Ship Collision
                 if pygame.sprite.spritecollide(laser, self.ship, True):
                     self.score += 50
                     laser.kill()
-                    self.explosionSound.play()
+                    self.alienExplosionSound.play()
+                    self.shipSound.stop()
+
 
         # Alien Lasers
         if self.alienLasers:
@@ -136,6 +141,7 @@ class Game:
                 if pygame.sprite.spritecollide(laser, self.player, False):
                     laser.kill()
                     self.lives -= 1
+                    self.playerExplosionSound.play()
                     if self.lives <= 0:
                         pygame.quit()
                         sys.exit()
