@@ -229,6 +229,7 @@ if __name__ == "__main__":
 
     alienShootLaser = pygame.USEREVENT +1
     pygame.time.set_timer(alienShootLaser, 800)
+    tv = True
 
     while True:
         for event in pygame.event.get():
@@ -238,10 +239,20 @@ if __name__ == "__main__":
             if event.type == alienShootLaser:
                 game.alienShoot()
 
+            if tv == True:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LCTRL:
+                        tv = False
+            elif tv == False:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LCTRL:
+                        tv = True
+
         screen.fill((5,5,5))
         pygame.draw.rect(screen, (34,204,0), ground)
         game.run()
-        crt.draw()
+        if tv == True:
+            crt.draw()
 
         pygame.display.flip()
         clock.tick(60)
