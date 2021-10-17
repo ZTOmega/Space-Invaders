@@ -53,6 +53,9 @@ class Game:
         # Player Explosion
         self.playerExplosionSound = pygame.mixer.Sound("../Space Invaders/Audio/Player_Explosion.mp3")
         self.playerExplosionSound.set_volume(0.1)
+        # Victory Message
+        self.victorySound = pygame.mixer.Sound("../Space Invaders/Audio/victory_sound.wav")
+        self.victorySound.set_volume(0.5)
 
 
     def createBarrier(self, xStart, yStart, offsetX):
@@ -182,8 +185,8 @@ class Game:
     def run(self):                                              # Atualiza e Desenha Grupos de Sprites
         if self.aliens.sprites():
             self.player.update()
-        self.alienLasers.update()
-        self.ship.update()
+            self.alienLasers.update()
+            self.ship.update()
 
         self.aliens.update(self.alienDirection)
         self.alienPocisionChecker()
@@ -232,6 +235,7 @@ if __name__ == "__main__":
     alienShootLaser = pygame.USEREVENT +1
     pygame.time.set_timer(alienShootLaser, 800)
     tv = True
+    victory = False
 
     while True:
         for event in pygame.event.get():
@@ -253,8 +257,15 @@ if __name__ == "__main__":
         screen.fill((5,5,5))
         pygame.draw.rect(screen, (34,204,0), ground)
         game.run()
+        
         if tv == True:
             crt.draw()
+
+        if victory == False:
+            if not game.aliens.sprites():
+                game.victorySound.play()
+                game.shipSound.stop()
+                victory = True
 
         pygame.display.flip()
         clock.tick(60)
