@@ -1,10 +1,10 @@
 # Space Invaders by Eclizanto #
 
 import pygame, sys
-from player import Player
-import barriers
-from aliens import Alien, Ship
 from random import choice, randint
+from player import Player
+from barriers import Block, shape
+from aliens import Alien, Ship
 from laser import Laser
 
 
@@ -22,7 +22,7 @@ class Game:
         self.font = pygame.font.Font("../Space Invaders/Font/ShareTechMono-Regular.ttf", 30)
 
         # Barrier Setup
-        self.shape = barriers.shape
+        self.shape = shape
         self.blockSize = 3
         self.barrier = pygame.sprite.Group()
         self.barrierAmount = 4
@@ -61,7 +61,7 @@ class Game:
                 if column == "x":
                     x = xStart + columnIndex * self.blockSize + offsetX
                     y = yStart + lineIndex * self.blockSize
-                    block = barriers.Block(self.blockSize, (40,175,140), x, y)
+                    block = Block(self.blockSize, (40,175,140), x, y)
                     self.barrier.add(block)
 
     def createMultipleBarriers(self, *offset, xStart, yStart):
