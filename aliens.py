@@ -6,7 +6,8 @@ class Alien(pygame.sprite.Sprite):
         filePath = "../Space Invaders/Sprites/" + color + ".png"
         self.image = pygame.image.load(filePath).convert_alpha()
         self.rect = self.image.get_rect(center = (x,y))
-
+        
+        # Valor de Pontuação
         if color == "Alien_White": self.value = 10
         elif color == "Alien_Yellow": self.value = 20
         else: self.value = 30
